@@ -1,8 +1,6 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class TreeTest {
     // 中序遍历：左根右
@@ -70,6 +68,35 @@ public class TreeTest {
             TreeNode node = nodeStack.pop();
             list.add(node.val);
             cur = node.right;
+        }
+        return list;
+    }
+
+    // 层次遍历一棵树
+    public static List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        // 根节点
+        Queue<TreeNode> curRoot = new LinkedList<TreeNode>();
+        Queue<TreeNode> child = new LinkedList<TreeNode>();
+        TreeNode cur = root;
+        curRoot.add(cur);
+        if (cur.left != null) {
+            child.add(cur.left);
+        }
+        if (cur.right != null) {
+            child.add(cur.right);
+        }
+        while (!curRoot.isEmpty()) {
+            //一层遍历完
+            while (!curRoot.isEmpty()){
+                TreeNode node = curRoot.poll();
+                list.add(node.val);
+            }
+            while (!child.isEmpty()){
+                TreeNode node1 = child.poll();
+                list.add(node1.val);
+                curRoot.add(node1);
+            }
         }
         return list;
     }
