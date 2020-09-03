@@ -14,6 +14,27 @@ public class TreeTest {
             val = x;
         }
     }
+    public static List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new LinkedList();
+        Deque<TreeNode> stack = new LinkedList();
+        if (root == null)
+            return res;
+        else
+            stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode p = stack.pop();
+            if (p != null) {
+                if (p.right != null) stack.push(p.right);
+                if (p.left != null) stack.push(p.left);
+                stack.push(p);
+                stack.push(null);
+            } else { // 栈为空，说明遇到标记，执行方法内部的访问节点操作
+                res.add(stack.pop().val);
+            }
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         // 1
@@ -28,8 +49,9 @@ public class TreeTest {
         node1.right = node2;
         node2.left = node3;
         node3.right = node4;
-        System.out.println(inorderTraversal(node1));
-        System.out.println(inorderTraversal1(node1));
+//        System.out.println(inorderTraversal(node1));
+        System.out.println(preorderTraversal(node1));
+//        System.out.println(inorderTraversal2(node1));
     }
 
     // 递归
@@ -65,6 +87,7 @@ public class TreeTest {
                 nodeStack.push(cur);
                 cur = cur.left;
             }
+            // 根节点
             TreeNode node = nodeStack.pop();
             list.add(node.val);
             cur = node.right;
@@ -80,24 +103,31 @@ public class TreeTest {
         Queue<TreeNode> child = new LinkedList<TreeNode>();
         TreeNode cur = root;
         curRoot.add(cur);
-        if (cur.left != null) {
-            child.add(cur.left);
-        }
-        if (cur.right != null) {
-            child.add(cur.right);
-        }
-        while (!curRoot.isEmpty()) {
-            //一层遍历完
-            while (!curRoot.isEmpty()){
+        int i=0;
+        while(!curRoot.isEmpty()){
+            while (!curRoot.isEmpty()) {
                 TreeNode node = curRoot.poll();
                 list.add(node.val);
+                if(child.isEmpty()){
+                    if (node.left != null) {
+                        child.add(node.left);
+                    }
+                    if (node.right != null) {
+                        child.add(node.right);
+                    }
+                }
+
             }
+            // 根队列空
             while (!child.isEmpty()){
                 TreeNode node1 = child.poll();
-                list.add(node1.val);
                 curRoot.add(node1);
             }
+            // 子队列空
+            i++;
+            System.out.println("第"+i+"层数");
         }
+
         return list;
     }
 
