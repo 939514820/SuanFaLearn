@@ -8,13 +8,15 @@ public class Iterator {
     public static void main(String[] args) {
         // 1
         //5 3
-        //   4
+        //  8 4
         // 遍历二叉树
         TreeNode node1 = new TreeNode(1);
         TreeNode node2 = new TreeNode(5);
+        TreeNode node5 = new TreeNode(8);
         TreeNode node3 = new TreeNode(3);
         TreeNode node4 = new TreeNode(4);
         node1.left = node2;
+        node2.right=node5;
         node1.right = node3;
         node3.right = node4;
         System.out.println(inorderTraversal1(node1));
