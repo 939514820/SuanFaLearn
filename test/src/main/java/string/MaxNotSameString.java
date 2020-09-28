@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MaxNotSameString {
-    // 最长不重复子序列
+    // 最长不重复子序列长度
     public int lengthOfLongestSubstring(String s) {
         if (s.isEmpty()) {return 0;}
         int maxlen = 0;
