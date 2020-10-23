@@ -40,16 +40,12 @@ public class getSum {
 
             //求和
             sum = num + x + y;
-            System.out.println("sum=" + sum +" "+x+" "+y+" "+num);
-            //num只可能为1或0
+            //求进位
             num = sum / 10;
-            System.out.println("num=" + num);
-            //为0节点之后的节点1赋值
+            //链接新链表
             cur.next = new ListNode(sum % 10);
-            System.out.println("cur.next=" + cur.next.val);
             //现在cur指向节点1,l1与l2也切换到下一节点
             cur = cur.next;
-            System.out.println("cur=" + cur.val);
             //不能省略判断语句，不然执行深度不同的链表会直接报错
             if (l1 != null) l1 = l1.next;
             if (l2 != null) l2 = l2.next;

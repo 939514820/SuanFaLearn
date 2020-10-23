@@ -108,15 +108,15 @@ public class MaxLengthStr {
             char c = s.charAt(i);
             if (!queue.contains(c)) {
                 queue.offer(c);
-                maxlen = Math.max(maxlen, queue.size());
+
             } else {
                 while (queue.contains(c)) {
                     queue.poll();
                 }
                 queue.offer(c);
-                maxlen = Math.max(maxlen, queue.size());
-            }
 
+            }
+            maxlen = Math.max(maxlen, queue.size());
         }
         return maxlen;
     }
