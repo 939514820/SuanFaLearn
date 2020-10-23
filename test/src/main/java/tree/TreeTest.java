@@ -42,6 +42,7 @@ public class TreeTest {
         }
         return res;
     }
+
     // 后序遍历
     public static List<Integer> postorderTraversal(TreeNode root) {
         LinkedList<TreeNode> stack = new LinkedList();
@@ -77,15 +78,16 @@ public class TreeTest {
         TreeNode node5 = new TreeNode(5);
         TreeNode node6 = new TreeNode(6);
         node1.right = node2;
-        node1.left=node5;
+        node1.left = node5;
         node2.left = node3;
-        node2.right=node6;
+        node2.right = node6;
         node3.right = node4;
 //        System.out.println(inorderTraversal(node1));
 //        System.out.println(preorderTraversal(node1));
-        System.out.println(preorderTraversal(node1));
-        System.out.println(postorderTraversal(node1));
-
+//        System.out.println(preorderTraversal(node1));
+//        System.out.println(postorderTraversal(node1));
+        ;
+        System.out.println(zigzagLevelOrder(node1));
     }
 
     // 递归
@@ -161,5 +163,79 @@ public class TreeTest {
         }
 
         return list;
+    }
+
+    public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<List<Integer>>();
+        }
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+        LinkedList<TreeNode> stack2 = new LinkedList<TreeNode>();
+        stack.add(root);
+        int i = 0;
+        // 从左往右
+        while (!stack.isEmpty()) {
+            List<Integer> temp = new ArrayList<Integer>();
+            while (!stack.isEmpty()) {
+
+                TreeNode pop = stack.pop();
+                temp.add(pop.val);
+
+                if (pop.left != null) {
+                    stack2.add(pop.left);
+                }
+                if (pop.right != null) {
+                    stack2.add(pop.right);
+                }
+
+            }
+            if (i % 2 == 0) {
+                Collections.reverse(temp);
+            }
+            list.add(temp);
+            i++;
+            while (!stack2.isEmpty()) {
+                TreeNode pop = stack2.pop();
+                stack.push(pop);
+
+            }
+        }
+        return list;
+    }
+
+    class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    };
+    public List<Integer> preorder(Node root) {
+        LinkedList<Node> stack = new LinkedList();
+        LinkedList<Integer> output = new LinkedList();
+        if (root == null) {
+            return output;
+        }
+
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            Node node = stack.pollLast();
+            output.add(node.val);
+            // 从左到右的节点逆序
+            Collections.reverse(node.children);
+            for (Node item : node.children) {
+                stack.add(item);
+            }
+        }
+        return output;
     }
 }
