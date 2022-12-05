@@ -1,6 +1,8 @@
 package string;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class MaxLengthStr {
@@ -17,7 +19,10 @@ public class MaxLengthStr {
     //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
     public static void main(String[] args) {
         System.out.println(longestPalindrome("ac"));
+        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(isPalindrome("00"));
     }
+
     public static String longestPalindrome(String s) {
         if (s.length() < 2) {
             return s;
@@ -27,9 +32,10 @@ public class MaxLengthStr {
         int len = s.length();
         //暴力递归
         char[] chars = s.toCharArray();
+        // 从中心向两边扩散找最长回文串
         for (int i = 0; i < len; i++) {
-            for (int j = i+1; j < len; j++) {
-                if (j - i + 1 > maxLen && isNeedStr(chars, i, j)) {
+            for (int j = i + 1; j < len; j++) {
+                if (isNeedStr(chars, i, j) && j - i + 1 > maxLen) {
                     index = i;
                     maxLen = j - i + 1;
 //                    System.out.println("index="+index);
@@ -42,6 +48,7 @@ public class MaxLengthStr {
 
     private static boolean isNeedStr(char[] chars, int i, int j) {
         while (j > i) {
+
             if (chars[i] != chars[j]) {
                 return false;
             }
@@ -54,6 +61,9 @@ public class MaxLengthStr {
     }
 
     /**
+     * 不妨设dp(i,j)表示字符串i-j之间字符是否尾回文串，则有如下结论成立
+     * 当 j-i<=2时 dp(i,j)=s[i]==s[j]
+     * 当 j-i>2时 dp(i,j)=s[i]==s[j]&&dp(i+1,j-1)
      *
      * @param s
      * @return 动态规划
@@ -67,10 +77,10 @@ public class MaxLengthStr {
         int len = s.length();
         char[] chars = s.toCharArray();
         //暴力递归
-        boolean[][]dp=new boolean[len][len];
+        boolean[][] dp = new boolean[len][len];
         // 初始化
         for (int i = 0; i < len; i++) {
-            dp[i][i]=true;
+            dp[i][i] = true;
         }
         //开始计算
         for (int j = 1; j < len; j++) {
@@ -85,8 +95,8 @@ public class MaxLengthStr {
                         dp[i][j] = dp[i + 1][j - 1];
                     }
                 }
-                // 记录最长子串
-                if (dp[i][j]&&(j - i + 1 > maxLen) ) {
+                // 是回文&&长度等
+                if (dp[i][j] && (j - i + 1 > maxLen)) {
                     index = i;
                     maxLen = j - i + 1;
                 }
@@ -95,13 +105,15 @@ public class MaxLengthStr {
         return s.substring(index, index + maxLen);
     }
 
+
     /**
-     *
      * @param s
      * @return 无重复字符的最长字串
      */
     public int lengthOfLongestSubstring(String s) {
-        if (s.isEmpty()) {return 0;}
+        if (s.isEmpty()) {
+            return 0;
+        }
         int maxlen = 0;
         Queue<Character> queue = new LinkedList<Character>();
         for (int i = 0; i < s.length(); i++) {
@@ -119,5 +131,32 @@ public class MaxLengthStr {
             maxlen = Math.max(maxlen, queue.size());
         }
         return maxlen;
+    }
+
+    public static boolean isPalindrome(String s) {
+        if (s.isEmpty()) {
+            return true;
+        }
+        int i = 0;
+        int j = s.length() - 1;
+        char[] chars = s.toCharArray();
+        while (i < j) {
+            char c1 = Character.toLowerCase(chars[i]);
+            char c2 = Character.toLowerCase(chars[j]);
+            if (!Character.isLowerCase(c1) && !Character.isDigit(c1)) {
+                i++;
+                continue;
+            }
+            if (!Character.isLowerCase(c2) && !Character.isDigit(c2)) {
+                j--;
+                continue;
+            }
+            if (c1 != c2) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
     }
 }

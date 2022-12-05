@@ -17,6 +17,61 @@ public class TreeTest {
         }
     }
 
+    public static void main(String[] args) {
+        // 1
+        //5  2
+        //  3  6
+        //   4
+        // 遍历二叉树
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+        node1.right = node2;
+        node1.left = node5;
+        node2.left = node3;
+        node2.right = node6;
+        node3.right = node4;
+//        System.out.println(postorderTraversal1(node1));
+        System.out.println(Arrays.toString(inorderTraversal1(node1).toArray()));
+//        System.out.println(getLevel1(node1));
+//        System.out.println(preorderTraversal(node1));
+//        System.out.println(preorderTraversal(node1));
+//        System.out.println(postorderTraversal(node1));
+        ;
+        //System.out.println(zigzagLevelOrder(node1));
+    }
+
+    // 中序列遍历
+    public static void getMiddele(TreeNode root, List list) {
+        if (root == null) {
+            return;
+        }
+        getMiddele(root.left, list);
+        list.add(root.val);
+        getMiddele(root.right, list);
+    }
+
+    public static void getBefore(TreeNode root, List list) {
+        if (root == null) {
+            return;
+        }
+        list.add(root.val);
+        getBefore(root.left, list);
+        getBefore(root.right, list);
+    }
+
+    public static void getAfter(TreeNode root, List list) {
+        if (root == null) {
+            return;
+        }
+        getAfter(root.left, list);
+        getAfter(root.right, list);
+        list.add(root.val);
+    }
+
     //初始化栈，并将根节点入栈；
     //当栈不为空时：
     //弹出栈顶元素 node，并将值添加到结果中；
@@ -43,15 +98,14 @@ public class TreeTest {
         return res;
     }
 
-    // 后序遍历
-    public static List<Integer> postorderTraversal(TreeNode root) {
+    // 后序遍历 左右根
+    public static List<Integer> postorderTraversal1(TreeNode root) {
         LinkedList<TreeNode> stack = new LinkedList();
         LinkedList<Integer> res = new LinkedList();
-        if (root == null) {
+        if (null == root) {
             return res;
         }
-
-        stack.add(root);
+        stack.push(root);
         while (!stack.isEmpty()) {
             TreeNode node = stack.pollLast();
             res.addFirst(node.val);//每次在链表的头部插入元素
@@ -61,72 +115,88 @@ public class TreeTest {
             if (node.right != null) {
                 stack.add(node.right);
             }
+
         }
         return res;
     }
 
-    public static void main(String[] args) {
-        // 1
-        //5  2
-        //  3  6
-        //   4
-        // 遍历二叉树
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(2);
-        TreeNode node3 = new TreeNode(3);
-        TreeNode node4 = new TreeNode(4);
-        TreeNode node5 = new TreeNode(5);
-        TreeNode node6 = new TreeNode(6);
-        node1.right = node2;
-        node1.left = node5;
-        node2.left = node3;
-        node2.right = node6;
-        node3.right = node4;
-//        System.out.println(inorderTraversal(node1));
-//        System.out.println(preorderTraversal(node1));
-//        System.out.println(preorderTraversal(node1));
-//        System.out.println(postorderTraversal(node1));
-        ;
-        System.out.println(zigzagLevelOrder(node1));
-    }
-
-    // 递归
-    public static List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<Integer>();
-        get(root, list);
-        return list;
-    }
-
-    // 中序列遍历
-    public static void get(TreeNode root, List list) {
-        if (root == null) {
-            return;
-        }
-        if (root.left != null) {
-            get(root.left, list);
-        }
-        list.add(root.val);
-        if (root.right != null) {
-            get(root.right, list);
-        }
-    }
-
-    // 非递归 中序遍历
+    // 非递归 中序遍历 左不为空，放左;
     public static List<Integer> inorderTraversal1(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
+        if (null == root) {
+            return list;
+        }
         // 记录经历根节点
         Stack<TreeNode> nodeStack = new Stack<TreeNode>();
         // 找左节点
         TreeNode cur = root;
         while (cur != null || !nodeStack.isEmpty()) {
-            if (cur.left != null) {
+
+            while (null != cur) {
                 nodeStack.push(cur);
                 cur = cur.left;
-            } else {
-                TreeNode pop = nodeStack.pop();
-                list.add(pop.val);
-                cur = cur.right;
             }
+            cur = nodeStack.pop();
+            list.add(cur.val);
+            cur = cur.right;
+
+        }
+        return list;
+    }
+
+    public static List<Integer> getLevel(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        level(1, root, list);
+        return list;
+    }
+
+    public static void level(int i, TreeNode root, List<Integer> list) {
+        if (null == root) {
+            return;
+        }
+        // 超过长度的要填充
+        int length = list.size();
+        if (length <= i) {
+            for (int j = 0; j <= i - length; j++) {
+                list.add(length + j, null);
+            }
+        }
+        list.set(i, root.val);
+        level(2 * i, root.left, list);
+        level(2 * i + 1, root.right, list);
+
+    }
+
+    public static List<Integer> getLevel1(TreeNode root) {
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        // 根节点
+        LinkedList<TreeNode> curRoot = new LinkedList<TreeNode>();
+        LinkedList<TreeNode> child = new LinkedList<TreeNode>();
+        curRoot.add(root);
+        int i = 0;
+        while (!curRoot.isEmpty()) {
+            while (!curRoot.isEmpty()) {
+                TreeNode node = curRoot.poll();
+                list.add(node.val);
+                if (null != node.left) {
+                    child.add(node.left);
+                }
+                if (null != node.right) {
+                    child.add(node.right);
+                }
+
+            }
+            while (!child.isEmpty()) {
+                if (i % 2 == 0) {
+                    TreeNode node = child.poll();
+                    curRoot.add(node);
+                } else {
+                    TreeNode node = child.poll();
+                    curRoot.addFirst(node);
+                }
+
+            }
+            i++;
         }
         return list;
     }
@@ -208,7 +278,8 @@ public class TreeTest {
         public int val;
         public List<Node> children;
 
-        public Node() {}
+        public Node() {
+        }
 
         public Node(int _val) {
             val = _val;
@@ -218,7 +289,10 @@ public class TreeTest {
             val = _val;
             children = _children;
         }
-    };
+    }
+
+    ;
+
     public List<Integer> preorder(Node root) {
         LinkedList<Node> stack = new LinkedList();
         LinkedList<Integer> output = new LinkedList();

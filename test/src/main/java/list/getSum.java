@@ -24,6 +24,8 @@ public class getSum {
         node4.next = node5;
         node5.next = node6;
         addTwoNumbers(node, node4);
+
+        s(100);
     }
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -53,9 +55,45 @@ public class getSum {
         //由于数值相加有进位的话要放到下一个节点，所以增加一个判断语句
         if (num > 0) {
             cur.next = new ListNode(num);
-            System.out.println("进位cur.next=" + cur.next.val);
+            System.out.print("进位cur.next=" + cur.next.val);
         }
         //加上返回值
         return first.next;
+    }
+
+
+    public static int s(int n) {
+        boolean[] isPrime = new boolean[n];
+        int count = 0;
+        // 素數從2開始
+        for (int i = 2; i < n; i++) {
+            if (!isPrime[i]) {
+                count++;
+                for (int j = i * i; j < n; j += i) {
+                    System.out.print("j=" + j);
+                    isPrime[j] = true;
+                }
+                System.out.println();
+            }
+        }
+        return count;
+    }
+
+    public boolean hasCycle(ListNode head) {
+        if (null == head || null == head.next) {
+            return false;
+        }
+        ListNode fast = new ListNode(-1);
+        ListNode slow = new ListNode(-1);
+        fast.next = head;
+        slow.next = head;
+        while (null != fast && null != fast.next && null != slow) {
+            if (slow.val != -1 && slow == fast) {
+                return true;
+            }
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return false;
     }
 }

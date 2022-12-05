@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class SS {
+public class ThreadSub {
     static volatile Long a = 0L;
 
 
