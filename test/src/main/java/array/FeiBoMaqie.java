@@ -10,11 +10,16 @@ public class dd {
     static Map<Integer, Integer> map = new HashMap<>();
 
     public static void main(String[] args) {
-        s1(4, new ArrayList());
-        System.out.println(Arrays.asList(res.toArray()).toString());
+        //s1(4, new ArrayList());
+//        System.out.println(Arrays.asList(res.toArray()).toString());
 //        System.out.println(map.toString());
+        get(4);
+        System.out.println(map.toString());
+        System.out.println(Arrays.asList(res.toArray()).toString());
     }
 
+    // 爬到N的方法数=F(n-1)爬1步数+F(N-2)爬2步
+    // 递归解法
     public static int get(int n) {
         if (n <= 0) {
             return 0;
@@ -37,6 +42,21 @@ public class dd {
             r = p + q;
         }
         return r;
+    }
+
+    public int climbStairs3(int n) {
+        if (n <= 0) {
+            return 0;
+        } else if (n<3) {
+            return n;
+        }
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
     }
 
     //
@@ -92,15 +112,17 @@ public class dd {
         list.add(cur);
         res.add(list);
         if (cur > 1) {
-            list=list.subList(0, list.size()-1);
-            s1(cur,list );
+            list = list.subList(0, list.size() - 1);
+            s1(cur, list);
         }
     }
 
     // 不同路徑的數量
-
+    //    作者：LeetCode-Solution
+//    链接：https://leetcode-cn.com/problems/unique-paths/solution/bu-tong-lu-jing-by-leetcode-solution-hzjf/
+//    来源：力扣（LeetCode）
+//    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
     /**
-     *
      * @param m
      * @param n dp[i][j]標識 走到當前經過的路徑zong數 dp[i][j]=dp[i-1][j]+dp[i][j-1]
      * @return
@@ -121,10 +143,7 @@ public class dd {
         return f[m - 1][n - 1];
     }
 
-//    作者：LeetCode-Solution
-//    链接：https://leetcode-cn.com/problems/unique-paths/solution/bu-tong-lu-jing-by-leetcode-solution-hzjf/
-//    来源：力扣（LeetCode）
-//    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
     //
 //void rotate(vector<vector<int>>& matrix) {
 //    int n = matrix.size();
@@ -142,6 +161,20 @@ public class dd {
 //    }
 //
 //}
+    public int[] twoSum(int[] nums, int target) {
+        int[] find = new int[Integer.MAX_VALUE];
+        int temp = 0;
+        for (int i = 0; i < nums.length; i++) {
+            temp = target - nums[i];
+            find[temp] = i;
 
+        }
+        for (int j = 0; j < nums.length; j++) {
+            if (find[nums[j]] != 0) {
+                return new int[]{find[nums[j]], j};
+            }
+        }
+        return new int[]{};
+    }
 
 }
