@@ -1,42 +1,10 @@
-package sort;
+package array.sort;
 
 import java.util.Arrays;
 import java.util.concurrent.PriorityBlockingQueue;
 
 public class duiSort {
-    public static void initHeap(int[] a, int i, int len) {
-//        {23,4,11,3,10,34,21};
-        //      23
-        //   4    11
-        // 3 10  34 21
-        for (int k = i * 2 + 1; k < len; k = k * 2 + 1) {
-            // 构造大顶堆
 
-            int maxIndex = i;
-            if (a[i] < a[k]) {
-                maxIndex = k;
-            }
-            if (k + 1 < len) {
-                if (a[i] < a[k + 1]) {
-                    maxIndex = k;
-                }
-            }
-            if (maxIndex != i) {
-                int temp = a[i];
-                a[i] = a[maxIndex];
-                a[maxIndex] = temp;
-            }
-        }
-
-        // 换最后一个和第一个
-        // 下浮操作
-    }
-
-    //    public int[] sort(int a[]){
-//        for (int i = 0; i < (a.length-1)/2; i++) {
-//            heap(a,i,i);
-//        }
-//    }
     private static void heapSort(int[] arr) {
         int temp = 0;
         //堆排序
@@ -86,54 +54,10 @@ public class duiSort {
 
     public static void main(String[] args) {
         int[] arr = new int[]{23, 4, 11, 3, 10, 34, 21};
-        int temp;
-//        //堆排序
-//        for (int i = arr.length / 2 - 1; i >= 0; i--) {
-//            initHeap(arr, i, arr.length);
-//        }
-//
-//        for (int j = arr.length - 1; j > 0; j--) {
-//            System.out.print(arr[0] + ",");
-//            temp = arr[j];
-//            arr[j] = arr[0];
-//            arr[0] = temp;
-//            initHeap(arr, 0, j);
-//        }
+
         System.out.println();
         heapSort(arr);
-//        System.out.println(Arrays.toString());
-
-        // 创建初始堆 0,1,2,3,4,5,6,
-        // 从最后一个父节点开始 依次构建大顶堆 a[i]>a[1*2+1],a[i]>a[i*2+2]
-        // for(int i=len-1/2,i>=0,i--){
-//                for(int k=2*i+1;k<len;k=2*i+1){
-//                    // 比较并交换
-                      //
-//                }
-        //  }
-        // 元素出堆
-//        for(int j=len-1;j>0;j--){
-//            // 交换第一个与最后一个
-//            // swap(a,0,j)
-//            // 下沉
-//            // down();
-//        }
-
-//        while(k>0){
-//            // k=2*p+1 -》 p=k-1 /2
-//          int   parent=(k-1)>>>1;
-//          if(a[k]>a[parent]){//
-//              a[k]=a[parent];
-//
-//          }else{
-//
-//          }
-//            k=parent;
-//
-//        }
-
-
-        PriorityBlockingQueue queue=new PriorityBlockingQueue();
+        PriorityBlockingQueue queue = new PriorityBlockingQueue();
         queue.offer(1);
         queue.poll();
     }

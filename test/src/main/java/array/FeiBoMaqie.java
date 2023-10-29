@@ -2,7 +2,7 @@ package array;
 
 import java.util.*;
 
-public class dd {
+public class FeiBoMaqie {
     // 1 2 3
     // n 台阶 1 1 2 3
     // 输出每一种 路径
@@ -143,24 +143,6 @@ public class dd {
         return f[m - 1][n - 1];
     }
 
-
-    //
-//void rotate(vector<vector<int>>& matrix) {
-//    int n = matrix.size();
-//
-//    for(int i=0 ; i<n ; ++i){
-//        for(int j = 0 ; j<i ; ++j){
-//            swap(matrix[i][j], matrix[j][i]);
-//        }
-//    }
-//
-//    for(int i=0 ; i<n ; ++i){
-//        for(int j=0 ; j<n/2 ; ++j){
-//            swap(matrix[i][j], matrix[i][n-1-j]);
-//        }
-//    }
-//
-//}
     public int[] twoSum(int[] nums, int target) {
         int[] find = new int[Integer.MAX_VALUE];
         int temp = 0;

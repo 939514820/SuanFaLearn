@@ -8,22 +8,28 @@ import java.util.*;
 
 public class Findsingle {
     public static void main(String[] args) {
-        int[] a = new int[]{1, 2, 3, 0, 0, 0};
+        int[] a = new int[]{1, 2, 3, 0, 3, 0};
         int[] b = new int[]{2, 5, 6};
+        int[] c = new int[]{1, 2, 4};
+        int[] d = new int[]{2, 5, 6};
 //        System.out.println(singleNumber(a));
 //        System.out.println((Arrays.toString(merge(a, 6, b, 3)).toString()));
+        System.out.println((Arrays.toString(merge1(c, d)).toString()));
 //        System.out.println(Arrays.toString(longestPalindrome2("aab").toArray()));
-        int[] nums = new int[]{1,1,1,2,2,3};
-        System.out.println(Arrays.toString(topKFrequent(nums,2)));
+//        int[] nums = new int[]{1, 1, 1, 2, 2, 3};
+//        System.out.println(Arrays.toString(topKFrequent(nums, 2)));
     }
 
+    // 找数组中的重复数 异或 0 不同1 同0
+    // 同自己求异或运算为0，同0求异或运算结果为自己, 如:a ^ a=0; a ^ 0 =a
+//    自反性，A^ B^ B=A^ 0=A (本题解题的关键)
     public static int singleNumber(int[] nums) {
         int flag = 0;
         if (nums.length == 0) {
             return flag;
         }
-        for (int i = 0; i < nums.length; i++) {
-            flag ^= nums[i];
+        for (int num : nums) {
+            flag ^= num;
         }
         return flag;
     }
@@ -80,6 +86,40 @@ public class Findsingle {
         }
         nums1 = nums;
         return nums1;
+    }
+
+    /**
+     * @param nums1
+     * @param nums2 两个数组合并成一个数组
+     * @return
+     */
+    public static int[] merge1(int[] nums1, int[] nums2) {
+        int i = 0;
+        int j = 0;
+        int[] nums = new int[nums1.length + nums2.length];
+        int index = 0;
+        while ((i < nums1.length) || (j < nums2.length)) {
+            // 边界条件的处理
+            if (i >= nums1.length) {
+                nums[index++] = nums2[j];
+                j++;
+            } else if (j >= nums2.length) {
+                nums[index++] = nums1[i];
+                i++;
+            } else if (nums1[i] < nums2[j]) {
+                nums[index++] = nums1[i];
+                i++;
+            } else if (nums1[i] > nums2[j]) {
+                nums[index++] = nums2[j];
+                j++;
+            } else {
+                nums[index++] = nums2[j];
+                nums[index++] = nums1[i];
+                i++;
+                j++;
+            }
+        }
+        return nums;
     }
 
     public static List<String> longestPalindrome2(String s) {
@@ -181,8 +221,8 @@ public class Findsingle {
         map.forEach((key, value) -> {
             pq.add(new Node(key, value));
         });
-        int i=0;
-        while (i <k && !pq.isEmpty()) {
+        int i = 0;
+        while (i < k && !pq.isEmpty()) {
             result[i] = pq.poll().num;
             i++;
         }

@@ -12,18 +12,18 @@ public class DFS {
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(permutation("ab")));
 //        System.out.println((letterCombinations("234")));
-//        pailie("123");
-       String s = new DFS().code(15620982798L);
-       String s2 = new DFS().decode(s);
-        System.out.println("s=" + s);
+        pailie("abc");
+//        String s = new DFS().code(15620982798L);
+//        String s2 = new DFS().decode(s);
+//        System.out.println("s=" + s);
+////
+//        System.out.println("s2=" + s2);
 //
-        System.out.println("s2=" + s2);
-
-        String s1 = new DFS().code(1240L);
-        String s3 = new DFS().decode(s1);
-
-        System.out.println("s=" + s1);
-        System.out.println("s2=" + s3);
+//        String s1 = new DFS().code(1240L);
+//        String s3 = new DFS().decode(s1);
+//
+//        System.out.println("s=" + s1);
+//        System.out.println("s2=" + s3);
 
     }
 
@@ -151,6 +151,22 @@ public class DFS {
         return Math.max(leftDepth, rightDepth) + 1;
     }
 
+    public boolean isPingHeng(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        int h = height(root.left) - height(root.right);
+        return Math.abs(h) == 1 || h == 0;
+    }
+
+    private int height(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        return Math.max(height(node.left), height(node.right)) + 1;
+    }
+
+
     public static void pailie(String s) {
         boolean[] use = new boolean[s.length()];
         String res = "";
@@ -239,7 +255,7 @@ public class DFS {
 //    来源：力扣（LeetCode）
 //    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
     private static String[] dict = new String[]{
-               "0",
+            "0",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
             "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "D1", "E1", "F1", "G1", "H1", "I1", "J1",
             "K1", "L1", "M1", "N1", "O1", "P1", "Q1", "R1",
@@ -264,7 +280,7 @@ public class DFS {
             n = cur;
             result = dict[yu.intValue()] + result;
         }
-            // 當前算出來是各位 疊加到前邊
+        // 當前算出來是各位 疊加到前邊
 
         return result;
 
@@ -275,10 +291,10 @@ public class DFS {
         Long res = 0L;
         int n = num.length();
         int index = 0;
-        for (int i = n-1; i >= 0; i--) {
+        for (int i = n - 1; i >= 0; i--) {
             // 前一位*進制+當前位置數*62的N-1-i 次方   當前算出來是各位 疊加之前值
             int ii = map.get(String.valueOf(num.charAt(i)));
-            res = res  + ii * get62(index);
+            res = res + ii * get62(index);
             index++;
         }
         return String.valueOf(res);

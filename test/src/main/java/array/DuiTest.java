@@ -16,19 +16,4 @@ public class DuiTest<E> {
         }
         queue[k] = key;
     }
-    // 如果是大顶堆 当前元素大于堆顶元素,那么当前元素就是最大元素了
-//    public void  siftUpComparable1(int k, E x) {
-//        Comparable<? super E> key = (Comparable<? super E>) x;
-//        int parent=k>>>1;
-//        Object curroot=queue[parent];
-//        while(k>0){
-//            if(key.compareTo((E)curroot)>=0){
-//                break;
-//            }
-//            //比较并交换
-//            queue[k] = e;
-//            k = parent;
-//        }
-//        queue[k]=key;
-//    }
 }

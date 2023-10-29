@@ -40,7 +40,7 @@ public class Iterator {
         }
         return list;
     }
-// 前序遍历
+    // 前序遍历
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> output = new ArrayList<Integer>();
         // 记录经历根节点
@@ -62,6 +62,7 @@ public class Iterator {
         }
         return output;
     }
-
+//后序遍历
+// 层次遍历
 
 }

@@ -6,8 +6,9 @@ import java.util.Queue;
 
 public class Window {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7},3)));
+        System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
     }
+
     public static int[] maxSlidingWindow(int[] nums, int k) {
         if (nums.length == 0 || k < 1 || nums.length < k) {
             return null;
@@ -22,6 +23,7 @@ public class Window {
             }
             queue.add(i);
             //队列头为当前最大值
+            // 维护事件窗口
             if (queue.peekFirst() == i - k) {
                 queue.pollFirst();
             }

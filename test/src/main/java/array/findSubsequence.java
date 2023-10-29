@@ -29,7 +29,8 @@ public class findSubsequence {
             // 初始化dp[i]
             dp[i] = 1;
             for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) {
+                if (nums[i] > nums[j]) {
+                    // 到当前字符串为止最大连续子串长度
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
 

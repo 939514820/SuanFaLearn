@@ -1,15 +1,18 @@
-import com.aliyun.openservices.shade.com.google.common.cache.CacheBuilder;
 import javafx.util.Builder;
 
+import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class GvauaCacheTest {
     public static void main(String[] args) {
-        CacheBuilder.newBuilder()
-                .concurrencyLevel(16)
-                .expireAfterAccess(5, TimeUnit.MINUTES)
-                .initialCapacity(5)
-                .maximumSize(50)
-                .build();
+//        ArrayBlockingQueue queue=new ArrayBlockingQueue(1);
+//        queue.offer(1);
+//        HashMap<String,Object> map=new HashMap<>();
+        ConcurrentHashMap<String,String> map1=new ConcurrentHashMap<>();
+        map1.put("1","1");
+        map1.put("1","2");
+
     }
 }

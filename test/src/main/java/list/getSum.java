@@ -83,17 +83,17 @@ public class getSum {
         if (null == head || null == head.next) {
             return false;
         }
-        ListNode fast = new ListNode(-1);
-        ListNode slow = new ListNode(-1);
-        fast.next = head;
-        slow.next = head;
+        ListNode fast = head;
+        ListNode slow = head;
         while (null != fast && null != fast.next && null != slow) {
-            if (slow.val != -1 && slow == fast) {
-                return true;
-            }
             fast = fast.next.next;
             slow = slow.next;
+            if (slow == fast) {
+                return true;
+            }
         }
         return false;
     }
+    // 数字反转 123 -》321
+
 }

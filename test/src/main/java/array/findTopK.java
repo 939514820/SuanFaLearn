@@ -81,8 +81,8 @@ public class findTopK {
      */
     public static int findKthLargest(int[] nums, int k) {
         // low==k-1 则 nums[low]是第K大
-        if (nums.length < 2) {
-            return nums[0];
+        if (nums.length < k) {
+            return -1;
         }
         PriorityQueue<Integer> queue = new PriorityQueue(k);
         for (int i = 0; i < nums.length; i++) {
@@ -103,6 +103,6 @@ public class findTopK {
 //        System.out.println(getTop(new int[]{10, 4, 3, 8, 2, 0}, 3));
         int[] a = new int[]{10, 4, 3, 8, 2, 0};
 //        System.out.println(getMiddle1(a, 0, a.length - 1, 6));
-        System.out.println(findKthLargest(a, 5));
+//        System.out.println(findKthLargest(a, 5));
     }
 }

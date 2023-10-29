@@ -16,21 +16,19 @@ public class getMaxMultiply {
         // 最大乘积
         System.arraycopy(nums, 0, maxF, 0, length);
         System.arraycopy(nums, 0, minF, 0, length);
+        int ans = maxF[0];
         for (int i = 1; i < length; ++i) {
             // 当前数，前一个最大*当前，前一个最小*当前 取最大  当前数 当前前一个*当前 前一个最小*当前
             // 当前数，前一个最小*当前，前一个最小*当前 取最小 处理正负
             maxF[i] = Math.max(maxF[i - 1] * nums[i], Math.max(nums[i], minF[i - 1] * nums[i]));
             minF[i] = Math.min(minF[i - 1] * nums[i], Math.min(nums[i], maxF[i - 1] * nums[i]));
-        }
-        int ans = maxF[0];
-        for (int i = 1; i < length; ++i) {
             ans = Math.max(ans, maxF[i]);
         }
         return ans;
     }
 
     public static void main(String[] args) {
-//        System.out.println(maxProduct(new int[]{2, 3, -2, 4}));
+        System.out.println(maxProduct(new int[]{2, 3, -2, 4}));
         System.out.println(maxProduct(new int[]{0, 2}));
     }
 

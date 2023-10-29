@@ -35,7 +35,10 @@ public class TreeTest {
         node2.right = node6;
         node3.right = node4;
 //        System.out.println(postorderTraversal1(node1));
-        System.out.println(Arrays.toString(inorderTraversal1(node1).toArray()));
+//        System.out.println(inorderTraversal1(node1));
+//        System.out.println(getLevel(node1));
+        getMirrors(node1);
+//        System.out.println(Arrays.toString(inorderTraversal1(node1).toArray()));
 //        System.out.println(getLevel1(node1));
 //        System.out.println(preorderTraversal(node1));
 //        System.out.println(preorderTraversal(node1));
@@ -121,29 +124,27 @@ public class TreeTest {
     }
 
     // 非递归 中序遍历 左不为空，放左;
+
+
     public static List<Integer> inorderTraversal1(TreeNode root) {
-        List<Integer> list = new ArrayList<Integer>();
-        if (null == root) {
-            return list;
+        if (root == null) {
+            return new ArrayList<>();
         }
-        // 记录经历根节点
-        Stack<TreeNode> nodeStack = new Stack<TreeNode>();
-        // 找左节点
-        TreeNode cur = root;
-        while (cur != null || !nodeStack.isEmpty()) {
-
-            while (null != cur) {
-                nodeStack.push(cur);
-                cur = cur.left;
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> st = new Stack<>();
+        while (root != null || !st.isEmpty()) {
+            while (root != null) {
+                st.add(root);
+                root = root.left;
             }
-            cur = nodeStack.pop();
-            list.add(cur.val);
-            cur = cur.right;
-
+            root = st.pop();
+            list.add(root.val);
+            root = root.right;
         }
         return list;
     }
 
+    //序列化
     public static List<Integer> getLevel(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         level(1, root, list);
@@ -167,6 +168,12 @@ public class TreeTest {
 
     }
 
+    /**
+     * CENGCI
+     *
+     * @param root
+     * @return
+     */
     public static List<Integer> getLevel1(TreeNode root) {
         LinkedList<Integer> list = new LinkedList<Integer>();
         // 根节点
@@ -184,17 +191,15 @@ public class TreeTest {
                 if (null != node.right) {
                     child.add(node.right);
                 }
-
             }
             while (!child.isEmpty()) {
                 if (i % 2 == 0) {
                     TreeNode node = child.poll();
-                    curRoot.add(node);
+                    curRoot.addLast(node);
                 } else {
                     TreeNode node = child.poll();
                     curRoot.addFirst(node);
                 }
-
             }
             i++;
         }
@@ -291,25 +296,34 @@ public class TreeTest {
         }
     }
 
-    ;
 
-    public List<Integer> preorder(Node root) {
-        LinkedList<Node> stack = new LinkedList();
-        LinkedList<Integer> output = new LinkedList();
+    // MIRRORS遍历 中序
+    public static void getMirrors(TreeNode root) {
         if (root == null) {
-            return output;
+            return;
+        }
+        TreeNode cur = root;
+        TreeNode mostRight = null;
+        while (cur != null) {
+            // 左子树的最右节点
+            if (cur.left != null) {
+                mostRight = cur.left;
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == null) {
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    // 第二次遍历
+                    mostRight.right = null;
+                }
+            }
+            // 右子树
+            System.out.println(cur.val);
+            cur = cur.right;
         }
 
-        stack.add(root);
-        while (!stack.isEmpty()) {
-            Node node = stack.pollLast();
-            output.add(node.val);
-            // 从左到右的节点逆序
-            Collections.reverse(node.children);
-            for (Node item : node.children) {
-                stack.add(item);
-            }
-        }
-        return output;
     }
 }

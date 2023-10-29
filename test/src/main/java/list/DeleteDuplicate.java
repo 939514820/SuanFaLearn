@@ -1,7 +1,6 @@
 package list;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class DeleteDuplicate {
     public static class ListNode {
@@ -38,7 +37,8 @@ public class DeleteDuplicate {
 //        listNodes[3] = node8;
 //        ListNode listNode = mergeKLists(listNodes);
 //        ListNode listNode = mergeTwoLists(node1, node5);
-        ListNode listNode = swapPairs2(node1);
+//        ListNode listNode = swapPairs3(node1, 3);
+        ListNode listNode = swapPairsNew(node1, 3);
 //        ListNode listNode = reverseList(node1);
 //        ListNode listNode = new DeleteDuplicate().reverseKGroupNew(node1, 3);
 //        ListNode listNode = new DeleteDuplicate().reverseKGroup(node1, 3);
@@ -51,63 +51,25 @@ public class DeleteDuplicate {
 
     //删除链表重复节点
     public static ListNode removeDuplicateNodes(ListNode head) {
-        ListNode pre = head;
-
-        if (pre == null) {
-            return head;
-        }
-        ListNode cur = head.next;
+        ListNode pre = null;
+        ListNode cur = head;
         //初始化
         Set<Integer> set = new HashSet<Integer>();
         while (cur != null) {
             //判断当前重複了 pre不變
             if (set.contains(cur.val)) {
                 pre.next = cur.next;
-                // 当前指针一直往后移动
-                cur = cur.next;
             } else {
                 set.add(cur.val);
                 pre = cur;
-                // 当前指针一直往后移动
-                cur = cur.next;
             }
-
+            // 当前指针一直往后移动
+            cur = cur.next;
         }
         return head;
     }
     // 不使用缓冲区的方法
     // 快慢指针法 快指针走完一起圈,慢指针指向下个节点 ；快指针比对和cur相同的，则改变节点 head2.next=head2.next.next;
-
-
-//    public static ListNode removeElements(ListNode head, int val) {
-//        if (head == null) {
-//            return head;
-//        }
-//        // 找到起始节点
-//        ListNode pre = head;
-//        while (null != pre && pre.val == val) {
-//            pre = pre.next;
-//        }
-//        if (pre == null) {
-//            return pre;
-//        }
-//        // 注意需要重新设置头指针位置
-//        head = pre;
-//        ListNode cur = pre.next;
-//        while (cur != null) {
-//            // 相同 前指针不变 当前指针向后移动
-//            if (cur.val == val) {
-//                pre.next = null;
-//                cur = cur.next;
-//            } else {
-//                // 不相同 当前指针和cur都向后移动
-//                pre.next = cur;
-//                cur = cur.next;
-//                pre = pre.next;
-//            }
-//        }
-//        return head;
-//    }
 
 
     // 合并两个有序链表
@@ -127,9 +89,10 @@ public class DeleteDuplicate {
             // 处理空值
             int x = null == cur2 ? Integer.MAX_VALUE : cur2.val;
             while (null != cur1 && cur1.val <= x) {
+                // 新链表
                 cur.next = cur1;
                 cur = cur.next;
-
+                // 当前指针
                 cur1 = cur1.next;
             }
             // 处理空值
@@ -181,6 +144,30 @@ public class DeleteDuplicate {
         return pre;
     }
 
+    /**
+     * @param head
+     * @return 两两反转
+     */
+    public static ListNode swapPairs2(ListNode head) {
+        while (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = new ListNode(-1);
+        ListNode cur = head;
+        ListNode res = pre;
+        while (cur != null && cur.next != null) {
+            // 先连2边再连中间
+            pre.next = cur.next;
+            cur.next = cur.next.next;
+            pre.next.next = cur;
+
+            pre = pre.next.next;
+            cur = cur.next;
+
+        }
+        return res.next;
+    }
+
 
     /**
      * @param head
@@ -217,7 +204,7 @@ public class DeleteDuplicate {
         //2.定义两个指针
         ListNode p1 = headA;
         ListNode p2 = headB;
-        //3.遍历 循环条件:是否相遇
+        //3.遍历 循环条件:是否相遇 假设有交点 ，构造成环，相反方如果有交点 一定会相遇
         while (p1 != p2) {
             p1 = p1.next;   //同步前行
             p2 = p2.next;
@@ -228,73 +215,100 @@ public class DeleteDuplicate {
         return p1;
     }
 
-    /**
-     * @param head
-     * @return 反转链表
-     */
-    public ListNode[] reverseList(ListNode head, ListNode tail) {
+    public static void swapPairs(ListNode left, ListNode start, ListNode end, ListNode right) {
 
-        ListNode pre = null;
-        ListNode cur = head;
-        // 遇到尾节点
-        while (pre != tail) {
-            ListNode temp = cur.next;
+        ListNode pre = start;
+        ListNode cur = start.next;
+        while (cur != right) {
+            // 连接新的链表
+            ListNode next = cur.next;
             cur.next = pre;
+
             pre = cur;
-            cur = temp;
+            cur = next;
         }
-        return new ListNode[]{tail, head};
+
+        // 重新连接
+        if (left != null) {
+            left.next = end;
+        }
+        start.next = right;
     }
 
-    /**
-     * @param head
-     * @return 两两反转
-     */
-    public static ListNode swapPairs2(ListNode head) {
-        while (head == null || head.next == null) {
+    // 反转指针 间隔k个元素
+    public static ListNode swapPairs3(ListNode head, int k) {
+        if (k < 2) {
             return head;
         }
-        ListNode pre = new ListNode(-1);
+        ListNode pre = null;
         ListNode cur = head;
-        ListNode res = pre;
-        while (cur != null && cur.next != null) {
-// 先连2边再连中间
-            pre.next = cur.next;
-            cur.next = cur.next.next;
-            pre.next.next = cur;
 
-            pre = pre.next.next;
-            cur = cur.next;
+        ListNode start = null;
+        ListNode next = null;
+        int index = 1;
+        while (null != cur) {
+            next = cur.next;
+            if (index == k) {
+                start = pre == null ? head : pre.next;
+                // 记录链表头 值为第一组反转后的end节点的值 也就是cur元素
+                head = pre == null ? cur : head;
+                swapPairs(pre, start, cur, next);
+
+                // start变成下一次的起始位置
+                pre = start;
+                index = 0;
+            }
+
+            index++;
+            cur = next;
 
         }
-        return res.next;
+
+//        1->2->3->4->5->6->7->8
+//               pre cur
+//        1<-2<-3->4->5->6->7->8
+//             pre cur
+        return head;
     }
 
-    public ListNode reverseKGroupNew(ListNode head, int k) {
-        ListNode pre = new ListNode(-1);
-        pre.next = head;
-
-        ListNode start = pre, end = pre;
-        while (head != null) {
-            for (int i = 0; i < k; i++) {
-                end = end.next;
-                if (end == null) {
-                    return pre.next;
-                }
-            }
-            ListNode next = end.next;
-            ListNode[] listNodes = reverseList(start.next, end);
-
-            // 连起来
-            start.next = listNodes[0];
-            listNodes[1].next = next;
-
-            // 头尾指向上一次结束位置 end节点是反转前的节点 因此需要重新赋值
-            end = listNodes[1];
-            start = end;
-            head = next;
+    public static ListNode swapPairsNew(ListNode head, int k) {
+        ListNode pre = null;
+        ListNode start = null;
+        ListNode cur = head;
+        if (k < 2) {
+            return head;
         }
-        return pre.next;
+        int index = 1;
+        while (cur != null) {
+            ListNode next = cur.next;
+            if (index % k == 0) {
+                start = (pre == null) ? head : pre.next;
+                head = pre == null ? cur : head;// 只複製一次
+                swapListNode(pre, start, cur, next);
+                pre = start;//換完后等於 start的值
+
+            }
+            cur = next;
+            index++;
+        }
+
+
+        return head;
+    }
+
+    private static void swapListNode(ListNode left, ListNode start, ListNode end, ListNode right) {
+        ListNode pre = null;
+        ListNode cur = start;
+        while (cur != right) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        if (left != null) {
+            left.next = end;
+        }
+        start.next = right;
     }
 
 }

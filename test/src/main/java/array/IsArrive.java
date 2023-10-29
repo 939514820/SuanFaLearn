@@ -3,7 +3,7 @@ package array;
 import java.util.Arrays;
 
 public class IsArrive {
-    //    给定一个非负整数数组，你最初位于数组的第一个位置。
+//    给定一个非负整数数组，你最初位于数组的第一个位置。
 //
 //    数组中的每个元素代表你在该位置可以跳跃的最大长度。
 //
@@ -12,6 +12,7 @@ public class IsArrive {
 //    示例 1:
 //
 //    输入: [2,3,1,1,4]
+    // 到当前为止的最大和 >=i
     public static void main(String[] args) {
         System.out.println(isArrive(new int[]{2, 3, 1, 1, 4}));
         System.out.println(isArrive(new int[]{3, 2, 1, 0, 4}));
@@ -33,7 +34,6 @@ public class IsArrive {
         }
         return false;
     }
-
     //    一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
 //
 //    机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
@@ -60,7 +60,6 @@ public class IsArrive {
         }
         return dp[m - 1][n - 1];
     }
-
     // 就是先根据左边界进行排序，排序完之后进行进行区间合并，合并的判断规则就是当前区间的左边界是否在上一个区间内。
 
 //    第169题-多数元素
