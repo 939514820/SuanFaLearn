@@ -179,14 +179,15 @@ public class DFS {
             return;
         }
         for (int i = 0; i < s.length(); i++) {
-            if (!use[i]) {
-                use[i] = true;
-                res += s.charAt(i);
-                dfs1(s, use, res);
-                use[i] = false;
-                System.out.println("中間結果=" + res);
-                res = res.substring(0, res.length() - 1);
+            if (use[i]) {
+                continue;
             }
+            use[i] = true;
+            res += s.charAt(i);
+            dfs1(s, use, res);
+            use[i] = false;
+            // 剪枝
+            res = res.substring(0, res.length() - 1);
         }
     }
 

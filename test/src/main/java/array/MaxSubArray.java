@@ -13,25 +13,40 @@ public class MaxSubArray {
         }
 
         // 到当前为止的连续最大累加值
-        int max  =nums[0];
+        int max = nums[0];
         // 从第一个开始
-        int beforeSum =nums[0];
+        int beforeSum = nums[0];
         for (int i = 1; i < nums.length; i++) {
-                if (beforeSum + nums[i] >nums[i]) {
-                    beforeSum =beforeSum + nums[i];
-                } else {
-                    // 从当前开始
-                    beforeSum =nums[i];
-                }
-                max = Math.max(max, beforeSum);
-                System.out.println("bf="+beforeSum);
+            if (beforeSum + nums[i] > nums[i]) {
+                beforeSum = beforeSum + nums[i];
+            } else {
+                // 从当前开始
+                beforeSum = nums[i];
+            }
+            max = Math.max(max, beforeSum);
+            System.out.println("bf=" + beforeSum);
 
         }
         return max;
     }
 
     public static void main(String[] args) {
-        int[] a = new int[]{-2,1,-3,4,-1,2,1,-5,4};
+        int[] a = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray1(a));
+        System.out.println(get(a));
+    }
+
+    public static int get(int[] nums) {
+        int max = 0;
+        int curmax = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (curmax + nums[i] > nums[i]) {
+                curmax = curmax + nums[i];
+            } else {
+                curmax = nums[i];
+            }
+            max = Math.max(max, curmax);
+        }
+        return max;
     }
 }

@@ -7,16 +7,6 @@ public class TreeTest {
     // 非迭代：一直找左节点直到为空 转到中间节点 再转到右节点 递归的调用过程是不断往左边走，当左边走不下去了，就打印节点，并转向右边，然后右边继续这个过程。
     //我们在迭代实现时，就可以用栈来模拟上面的调用过程。
     // 前序遍历： 根左右
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
     public static void main(String[] args) {
         // 1
         //5  2

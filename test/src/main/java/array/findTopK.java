@@ -1,6 +1,5 @@
 package array;
 
-import sun.security.ssl.HandshakeInStream;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -47,6 +46,7 @@ public class findTopK {
         if (s < e) {
             int temp = a[low];
             while (low < high) {
+                // 从大到小
                 while (low < high && a[high] <= temp) {
                     high--;
                 }
@@ -74,6 +74,7 @@ public class findTopK {
 
     /**默认是小顶堆 topK大用小顶堆
      * 构造
+     * Queue<Integer> bigHeap = new PriorityQueue<>((o1, o2) -> o2 - o1); 大顶堆
      * PriorityQueue<Integer> queue = new PriorityQueue(Collections.reverseOrder());
      * @param nums
      * @param k
@@ -102,7 +103,7 @@ public class findTopK {
     public static void main(String[] args) {
 //        System.out.println(getTop(new int[]{10, 4, 3, 8, 2, 0}, 3));
         int[] a = new int[]{10, 4, 3, 8, 2, 0};
-//        System.out.println(getMiddle1(a, 0, a.length - 1, 6));
-//        System.out.println(findKthLargest(a, 5));
+        System.out.println(getMiddle1(a, 0, a.length - 1, 6));
+        System.out.println(findKthLargest(a, 2));
     }
 }

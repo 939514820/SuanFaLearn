@@ -15,7 +15,7 @@ public class Findsingle {
 //        System.out.println(singleNumber(a));
 //        System.out.println((Arrays.toString(merge(a, 6, b, 3)).toString()));
         System.out.println((Arrays.toString(merge1(c, d)).toString()));
-//        System.out.println(Arrays.toString(longestPalindrome2("aab").toArray()));
+        System.out.println(Arrays.toString(longestPalindrome2("aab").toArray()));
 //        int[] nums = new int[]{1, 1, 1, 2, 2, 3};
 //        System.out.println(Arrays.toString(topKFrequent(nums, 2)));
     }
@@ -56,39 +56,6 @@ public class Findsingle {
     }
 
     /**
-     * 合并一个数组到另一个数组中
-     *
-     * @param nums1
-     * @param m
-     * @param nums2
-     * @param n
-     */
-    public static int[] merge(int[] nums1, int m, int[] nums2, int n) {
-        int i1 = 0;
-        int i2 = 0;
-        int nums[] = new int[m];
-        int index = 0;
-        int min1;
-        int min2;
-        int N = m - n;
-        while (i1 < N || i2 < n) {
-            min1 = i1 >= N ? Integer.MAX_VALUE : nums1[i1];
-
-            while (i2 < n && nums2[i2] <= min1) {
-                nums[index++] = nums2[i2];
-                i2++;
-            }
-            min2 = i2 >= n ? Integer.MAX_VALUE : nums2[i2];
-            while (i1 < N && nums1[i1] <= min2) {
-                nums[index++] = nums1[i1];
-                i1++;
-            }
-        }
-        nums1 = nums;
-        return nums1;
-    }
-
-    /**
      * @param nums1
      * @param nums2 两个数组合并成一个数组
      * @return
@@ -100,18 +67,12 @@ public class Findsingle {
         int index = 0;
         while ((i < nums1.length) || (j < nums2.length)) {
             // 边界条件的处理
-            if (i >= nums1.length) {
+            if (i > nums1.length-1 || nums1[i] > nums2[j]) {
                 nums[index++] = nums2[j];
                 j++;
-            } else if (j >= nums2.length) {
+            } else if (j > nums2.length-1 || nums1[i] < nums2[j]) {
                 nums[index++] = nums1[i];
                 i++;
-            } else if (nums1[i] < nums2[j]) {
-                nums[index++] = nums1[i];
-                i++;
-            } else if (nums1[i] > nums2[j]) {
-                nums[index++] = nums2[j];
-                j++;
             } else {
                 nums[index++] = nums2[j];
                 nums[index++] = nums1[i];
@@ -123,7 +84,7 @@ public class Findsingle {
     }
 
     public static List<String> longestPalindrome2(String s) {
-        List list = new ArrayList();
+        List list = new ArrayList<>();
         if (s.length() < 2) {
             list.add(s);
             return list;

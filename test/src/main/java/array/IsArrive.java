@@ -21,13 +21,13 @@ public class IsArrive {
     }
 
     public static boolean isArrive(int[] nums) {
-        int n = nums.length;
+        int n = nums.length-1;
         int max = 0;
         for (int i = 0; i < n; ++i) {
             // max>=i 才是可达的
             if (max >= i) {
                 max = Math.max(max, i + nums[i]);
-                if (max >= n - 1) {
+                if (max >= n ) {
                     return true;
                 }
             }

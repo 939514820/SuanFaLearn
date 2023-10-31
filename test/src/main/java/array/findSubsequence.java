@@ -14,7 +14,7 @@ public class findSubsequence {
     }
 
     /**
-     * 递增子序列
+     * 最长递增子序列
      *
      * @param nums
      * @return
