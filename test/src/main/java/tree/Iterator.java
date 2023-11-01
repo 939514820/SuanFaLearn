@@ -1,8 +1,6 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Iterator {
     public static void main(String[] args) {
@@ -20,7 +18,9 @@ public class Iterator {
         node2.right = node5;
         node3.right = node4;
 //        middleVisit(node1);
-        middleMethod(node1);
+//        middleMethod(node1);
+//        zMethod(node1);
+        beforeMethod(node1).toString();
     }
 
     public static void middleVisit(TreeNode root) {
@@ -38,23 +38,20 @@ public class Iterator {
 
     // 判断是否是平衡二叉树 重点在于求二叉树的深度 深度优先遍历
     // 中序遍历
-    public static List<Integer> inorderTraversal1(TreeNode root) {
-        List<Integer> list = new ArrayList<Integer>();
-        // 记录经历根节点
-        Stack<TreeNode> nodeStack = new Stack<TreeNode>();
+    public static void middleMethod(TreeNode root) {
         TreeNode cur = root;
+        Stack<TreeNode> stack = new Stack<>();
         while (cur != null) {
-            nodeStack.push(cur);
+            stack.add(cur);
             cur = cur.left;
         }
-        while (!nodeStack.isEmpty()) {
-            TreeNode node = nodeStack.pop();
-            list.add(node.val);
-            if (null != node.right) {
-                nodeStack.push(node.right);
+        while (!stack.isEmpty()) {
+            TreeNode curRoot = stack.pop();
+            System.out.println("cur:" + curRoot.val);
+            if (null != curRoot.right) {
+                stack.push(curRoot.right);
             }
         }
-        return list;
     }
 
     // 前序遍历
@@ -80,18 +77,47 @@ public class Iterator {
         return output;
     }
 
-    public static void middleMethod(TreeNode root) {
-        TreeNode cur = root;
-        Stack<TreeNode> stack = new Stack<>();
-        while (cur != null) {
-            stack.add(cur);
-            cur = cur.left;
+    public static void zMethod(TreeNode root) {
+        if (root == null) {
+            return;
         }
-        while (!stack.isEmpty()) {
-            TreeNode curRoot = stack.pop();
-            System.out.println("cur:" + curRoot.val);
-            curRoot = curRoot.right;
+        Queue<TreeNode> r = new LinkedList<>();
+        Queue<TreeNode> c = new LinkedList<>();
+        int index = 0;
+        r.add(root);
+        while (!r.isEmpty()) {
+            while (!r.isEmpty()) {
+                TreeNode node = r.poll();
+                System.out.println(index + "=:" + node.val);
+                if (node.left != null) {
+                    c.add(node.left);
+                }
+                if (node.right != null) {
+                    c.add(node.right);
+                }
+            }
+            while (!c.isEmpty()) {
+                r.add(c.poll());
+            }
+            index++;
         }
+    }
+
+    public static List<Integer> beforeMethod(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode poll = queue.poll();
+            result.add(poll.val);
+            if (poll.left != null) {
+                queue.add(poll.left);
+            }
+            if (poll.right != null) {
+                queue.add(poll.right);
+            }
+        }
+        return result;
     }
 //后序遍历
 // 层次遍历
