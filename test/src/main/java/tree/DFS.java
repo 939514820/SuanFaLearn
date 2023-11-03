@@ -142,13 +142,17 @@ public class DFS {
     }
 
 
+    public int getMaxDepth(TreeNode root) {
+        return maxDepth(root);
+    }
+
     public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int leftDepth = maxDepth(root.left);
-        int rightDepth = maxDepth(root.right);
-        return Math.max(leftDepth, rightDepth) + 1;
+        int leftDepth = 1 + maxDepth(root.left);
+        int rightDepth = 1 + maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth);
     }
 
     public boolean isPingHeng(TreeNode root) {

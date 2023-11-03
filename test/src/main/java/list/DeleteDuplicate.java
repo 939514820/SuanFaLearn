@@ -37,8 +37,12 @@ public class DeleteDuplicate {
 //        listNodes[3] = node8;
 //        ListNode listNode = mergeKLists(listNodes);
 //        ListNode listNode = mergeTwoLists(node1, node5);
-//        ListNode listNode = swapPairs3(node1, 3);
-        ListNode listNode = swapPairsNew(node1, 3);
+        ListNode cur = node1;
+        while (cur != null) {
+            System.out.println(cur.val);
+            cur = cur.next;
+        }
+        ListNode listNode = swapPairs3(node1, 3);
 //        ListNode listNode = reverseList(node1);
 //        ListNode listNode = new DeleteDuplicate().reverseKGroupNew(node1, 3);
 //        ListNode listNode = new DeleteDuplicate().reverseKGroup(node1, 3);
@@ -216,9 +220,9 @@ public class DeleteDuplicate {
     }
 
     public static void swapPairs(ListNode left, ListNode start, ListNode end, ListNode right) {
-
-        ListNode pre = start;
-        ListNode cur = start.next;
+        ListNode pre = null;
+        ListNode cur = start;
+        System.out.println("start=" + start.val + "end=" + end.val);
         while (cur != right) {
             // 连接新的链表
             ListNode next = cur.next;
@@ -227,7 +231,6 @@ public class DeleteDuplicate {
             pre = cur;
             cur = next;
         }
-
         // 重新连接
         if (left != null) {
             left.next = end;
@@ -240,6 +243,7 @@ public class DeleteDuplicate {
         if (k < 2) {
             return head;
         }
+
         ListNode pre = null;
         ListNode cur = head;
 
@@ -248,20 +252,19 @@ public class DeleteDuplicate {
         int index = 1;
         while (null != cur) {
             next = cur.next;
-            if (index == k) {
+            if (index % k == 0) {
+
                 start = pre == null ? head : pre.next;
                 // 记录链表头 值为第一组反转后的end节点的值 也就是cur元素
                 head = pre == null ? cur : head;
-                swapPairs(pre, start, cur, next);
+                swapPairs(pre, start, cur, cur.next);
 
-                // start变成下一次的起始位置
+                // end变成下一次的起始位置
                 pre = start;
                 index = 0;
             }
-
             index++;
-            cur = next;
-
+            cur = next;//关键
         }
 
 //        1->2->3->4->5->6->7->8
@@ -269,46 +272,6 @@ public class DeleteDuplicate {
 //        1<-2<-3->4->5->6->7->8
 //             pre cur
         return head;
-    }
-
-    public static ListNode swapPairsNew(ListNode head, int k) {
-        ListNode pre = null;
-        ListNode start = null;
-        ListNode cur = head;
-        if (k < 2) {
-            return head;
-        }
-        int index = 1;
-        while (cur != null) {
-            ListNode next = cur.next;
-            if (index % k == 0) {
-                start = (pre == null) ? head : pre.next;
-                head = pre == null ? cur : head;// 只複製一次
-                swapListNode(pre, start, cur, next);
-                pre = start;//換完后等於 start的值
-
-            }
-            cur = next;
-            index++;
-        }
-
-
-        return head;
-    }
-
-    private static void swapListNode(ListNode left, ListNode start, ListNode end, ListNode right) {
-        ListNode pre = null;
-        ListNode cur = start;
-        while (cur != right) {
-            ListNode next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
-        }
-        if (left != null) {
-            left.next = end;
-        }
-        start.next = right;
     }
 
 }

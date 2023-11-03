@@ -20,7 +20,10 @@ public class Iterator {
 //        middleVisit(node1);
 //        middleMethod(node1);
 //        zMethod(node1);
-        beforeMethod(node1).toString();
+//        beforeMethod(node1).stream().forEach(it -> {
+//            System.out.println(it);
+//        });
+        afterMethod(node1);
     }
 
     public static void middleVisit(TreeNode root) {
@@ -55,28 +58,24 @@ public class Iterator {
     }
 
     // 前序遍历
-    public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> output = new ArrayList<Integer>();
-        // 记录经历根节点
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        if (root == null) {
-            return output;
-        }
-
-        stack.add(root);
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            output.add(node.val);
-            if (node.right != null) {
-                stack.add(node.right);
+    public static List<Integer> beforeMethod(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode poll = queue.poll();
+            result.add(poll.val);
+            if (poll.left != null) {
+                queue.add(poll.left);
             }
-            if (node.left != null) {
-                stack.add(node.left);
+            if (poll.right != null) {
+                queue.add(poll.right);
             }
         }
-        return output;
+        return result;
     }
 
+    // 层次遍历
     public static void zMethod(TreeNode root) {
         if (root == null) {
             return;
@@ -103,23 +102,26 @@ public class Iterator {
         }
     }
 
-    public static List<Integer> beforeMethod(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        List<Integer> result = new ArrayList<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            TreeNode poll = queue.poll();
-            result.add(poll.val);
+    public static LinkedList<Integer> afterMethod(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        LinkedList<TreeNode> nodes = new LinkedList<>();
+        if (null == root) {
+            return res;
+        }
+        nodes.add(root);
+        while (!nodes.isEmpty()) {
+            TreeNode poll = nodes.pollLast();
+            res.addFirst(poll.val);
             if (poll.left != null) {
-                queue.add(poll.left);
+                nodes.add(poll.left);
             }
             if (poll.right != null) {
-                queue.add(poll.right);
+                nodes.add(poll.right);
             }
         }
-        return result;
+        for (Integer integer : res) {
+            System.out.println(integer);
+        }
+        return res;
     }
-//后序遍历
-// 层次遍历
-
 }

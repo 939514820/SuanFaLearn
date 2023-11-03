@@ -18,9 +18,9 @@ public class MaxLengthStr {
     //链接：https://leetcode-cn.com/problems/longest-palindromic-substring
     //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
     public static void main(String[] args) {
-        System.out.println(longestPalindrome("ac"));
-        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-        System.out.println(isPalindrome("00"));
+        System.out.println(longestPalindrome("acbcadb"));
+//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+//        System.out.println(isPalindrome("00"));
     }
 
     public static String longestPalindrome(String s) {
@@ -34,15 +34,18 @@ public class MaxLengthStr {
         char[] chars = s.toCharArray();
         // 从中心向两边扩散找最长回文串
         for (int i = 0; i < len; i++) {
+
             for (int j = i + 1; j < len; j++) {
-                if (isNeedStr(chars, i, j) && j - i + 1 > maxLen) {
+
+                if (isNeedStr(chars, i, j)) {
                     index = i;
-                    maxLen = j - i + 1;
+                    maxLen = Math.max(maxLen, j - i + 1);
 //                    System.out.println("index="+index);
 //                    System.out.println("maxlen="+maxLen);
                 }
             }
         }
+        System.out.println(index);
         return s.substring(index, index + maxLen);
     }
 
@@ -159,4 +162,5 @@ public class MaxLengthStr {
         }
         return true;
     }
+
 }
